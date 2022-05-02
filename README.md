@@ -35,4 +35,10 @@ tests = [
 run(tests, ctx, verbose=False)
 ```
 
-![output](output.jpg)
+simple output:
+
+![output](output.png)
+
+verbose output:
+
+![output2](output2.png)
