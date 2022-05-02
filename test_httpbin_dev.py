@@ -3,8 +3,6 @@ from ti import T, run
 
 ctx = {}
 ctx['host'] = 'https://httpbin.org'
-ctx['username'] = 'testname132'
-ctx['postdata'] = {'testdata':123}
 
 tests = [
     T(name='test simple', url='/get',method='get'),
