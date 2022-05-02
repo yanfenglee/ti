@@ -22,8 +22,8 @@ ctx = {}
 ctx['host'] = 'https://httpbin.org'
 
 tests = [
-    T(name='test simple', url='/get',method='get'),
-    T(name='test post data', url='/post',method='post',data={"Token":'d2d3ww'}, expect={'$.headers.Content-Type': 'application/json','$.json.Token':'d2d3ww'},ctx={'login_token':'$.json.Token'},
+    T(url='/get',method='get'),
+    T(url='/post',method='post',data={"Token":'d2d3ww'}, expect={'$.headers.Content-Type': 'application/json','$.json.Token':'d2d3ww'},ctx={'login_token':'$.json.Token'},
 
     T(name='test error', url='/post',method='post', expect={'$.json.data':'no data'}),
 
