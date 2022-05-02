@@ -3,8 +3,10 @@ ti is a simple python auto test framework
 
 ## features
 
+* use *expect* to ensure the response as expect
 * use *ctx* dict to store variables and response values
-* use jsonpath to reference the variable in testcase
+* use jsonpath to reference the variable from ctx or response
+* can restore response value in *ctx* with another name
 * only one single python file, can integrate into your project very convinient
 
 ## install dependencies
