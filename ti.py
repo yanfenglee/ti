@@ -78,6 +78,9 @@ def apply_single(ts, ctx, verbose=False):
         data = resolve(ts['data'], ctx)
         expect = resolve(ts['expect'], ctx)
 
+        if verbose:
+            print(f"{datetime.now()} begin request: method={method},url={url},params={params},headers={headers},data={data},expect={expect}")
+
         response = requests.request(method=method,url=ctx['host']+url,params=params,headers=headers,json=data)
         resp['raw'] = response.text
 
