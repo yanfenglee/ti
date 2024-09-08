@@ -4,7 +4,7 @@ tests = [
 
     [
         T(name='login', path='/user/login',method='post',data={'username':'admin','password':'123456'}),
-        T(name='get user', path='/user/info',method='post',headers={'Authorization':'Bearer $.token'},data={'id':'333'}),
+        T(name='get user', path='/user/info',method='get',headers={'Authorization':'Bearer $.token'},params={'id':'333'}),
     ],
     
     [
