@@ -72,16 +72,16 @@ def apply_single(ts, ctx, verbose=False):
     resp = {}
     try:
         method = resolve(ts['method'], ctx)
-        url = resolve(ts['url'], ctx)
+        path = resolve(ts['path'], ctx)
         params = resolve(ts['params'], ctx)
         headers = resolve(ts['headers'], ctx)
         data = resolve(ts['data'], ctx)
         expect = resolve(ts['expect'], ctx)
 
         if verbose:
-            print(f"{datetime.now()} begin request: method={method},url={url},params={params},headers={headers},data={data},expect={expect}")
+            print(f"{datetime.now()} begin request: method={method},path={path},params={params},headers={headers},data={data},expect={expect}")
 
-        response = requests.request(method=method,url=ctx['host']+url,params=params,headers=headers,json=data)
+        response = requests.request(method=method,url=ctx['host']+path,params=params,headers=headers,json=data)
         resp['raw'] = response.text
 
         res = response.json()
@@ -89,28 +89,29 @@ def apply_single(ts, ctx, verbose=False):
         if match_expect(res, expect):
             ctx |= res
             ctx |= resolve(ts['ctx'], ctx)
-            return True, url, res if verbose else ""
+            return True, path, res if verbose else ""
         else:
-            return False, url, f" {res} {white('~~~===')} {purple(expect)}"
+            return False, path, f" {res} {white('~~~===')} {purple(expect)}"
     except Exception as ex:
-        return False, url, f" exception: {ex.args}, response: {resp['raw']}"
+        return False, path, f" exception: {ex.args}, response: {resp['raw']}"
 
 
 # print test result
-def print_result(t, idx, passed, url, info):
+def print_result(t, idx, passed, path, info):
     if passed:
-        print(f"{datetime.now()} {green('------ passed')}, {t['name']}, {'%5d' % idx},  {url}, {cyan(info)}")
+        print(f"{datetime.now()} {green('------ passed')}, {t['name']}, {'%5d' % idx},  {path}, {cyan(info)}")
     else:
-        print(f"{datetime.now()} {red('!!!!!! failed')}, {t['name']}, {'%5d' % idx},  {url}, {yellow(info)}")
+        print(f"{datetime.now()} {red('!!!!!! failed')}, {t['name']}, {'%5d' % idx},  {path}, {yellow(info)}")
 
 
 # construct test infomation
-def T(url,name='',method='get',params={},headers={},data={},expect=None,ctx={}):
-    return {'url':url,'name':name,'method':method,'params':params,'headers':headers,'data':data, 'expect':expect,'ctx':ctx}
+def T(path,name='',method='get',params={},headers={},data={},expect=None,ctx={}):
+    return {'path':path,'name':name,'method':method,'params':params,'headers':headers,'data':data, 'expect':expect,'ctx':ctx}
 
 
 # run all tests
-def run(tests, ctx, verbose=False):
+def run(tests, host, verbose=False):
+    ctx = {'host':host}
     idx = 0
     for ts in tests:
         if type(ts) is list:
