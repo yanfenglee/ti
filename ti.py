@@ -105,13 +105,13 @@ def print_result(t, idx, passed, path, info):
 
 
 # construct test infomation
-def T(path,name='',method='get',params={},headers={},data={},expect=None,ctx={}):
-    return {'path':path,'name':name,'method':method,'params':params,'headers':headers,'data':data, 'expect':expect,'ctx':ctx}
+def T(path,name='',method='get',params={},headers={},data={},expect=None,restore={}):
+    return {'path':path,'name':name,'method':method,'params':params,'headers':headers,'data':data, 'expect':expect,'ctx':restore}
 
 
 # run all tests
-def run(tests, host, verbose=False):
-    ctx = {'host':host}
+def run(tests, host, verbose=False, ctx={}):
+    ctx |= {'host':host}
     idx = 0
     for ts in tests:
         if type(ts) is list:
